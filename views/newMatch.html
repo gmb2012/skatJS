@@ -1,0 +1,20 @@
+<div class="row">
+    <h3>Spiele</h3>
+    <form role="form">
+        <div class="row">
+            <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                <label for="allPlayers">Alle Spieler</label>
+                <select multiple="multiple" id="allPlayers" ng-model="allPlayersSelected" class="form-control player-choose" ng-options="player.id as player.name for player in players"></select>
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-1">
+                <button class="btn btn-default btn-block btn-switch" ng-click="addPlayers()">&gt;&gt;</button>
+                <button class="btn btn-default btn-block btn-switch" ng-click="removePlayers()">&lt;&lt;</button>
+            </div>
+            <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                <label for="selectedPlayers">Gewählte Spieler</label>
+                <select multiple="multiple" id="selectedPlayers" ng-model="selectedPlayersSelected" class="form-control player-choose" ng-options="player.id as player.name for player in selectedPlayers"></select>
+            </div>
+        </div>
+        <button class="btn btn-default" ng-click="startGame()" ng-disabled="selectedPlayers.length < 3 || selectedPlayers.length > 4">Erstellen</button>
+    </form>
+</div>

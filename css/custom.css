@@ -1,0 +1,54 @@
+body {
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+button.team {
+    width: 300px;
+}
+
+.upcoming-release {
+    margin-bottom: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.upcoming-release div, .upcoming-release h4 {
+    font-size: 11px;
+}
+
+div.timeout {
+    font-size: 12px;
+}
+
+.upcoming-release div.timeout {
+    visibility: hidden;
+}
+
+.upcoming-release .glyphicon-ok {
+   display: none;
+}
+
+span.glyphicon {
+    cursor: pointer;
+}
+
+button.btn-switch {
+    margin-top: 25px;
+}
+
+select.player-choose {
+    height: 10em;
+}
+
+.match-row:hover {
+    background-color: #cccccc;
+}
+
+hr.separator {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-color: #000000 -moz-use-text-color #FFFFFF;
+    border-style: solid none;
+    border-width: 1px 0;
+}

@@ -1,0 +1,36 @@
+<div class="row">
+    <h3>Spiel - {{date | date:'yyyy-MM-dd HH:mm:ss'}}</h3>
+
+    <div class="row">
+        <span ng-repeat="player in players">
+            <h4 class="col-lg-2 col-md-2 col-sm-2">
+                {{player.name}}
+            </h4>
+        </span>
+
+        <h4 class="col-lg-2 col-md-2 col-sm-2">
+            Spiel
+        </h4>
+    </div>
+    <hr class="col-lg-10 col-md-10 col-sm-10 separator">
+    <div class="row" ng-controller="GamesController">
+        The List goes here
+    </div>
+    <div class="row">
+        <form ng-controller="NewGameController">
+            <span ng-repeat="player in players">
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    <input type="number" name="{{player.id}}" ng-model="scores[player.id]" class="form-control" />
+                </div>
+
+            </span>
+            <div class="col-lg-2 col-md-2 col-sm-2">
+                <input type="number" ng-model="score" class="form-control" />
+            </div>
+
+            <div class="col-lg-2 col-md-2 col-sm-2">
+                <button class="btn btn-default" ng-click="add()" ng-disabled="noScoreEntered()">Speichern</button>
+            </div>
+        </form>
+    </div>
+</div>

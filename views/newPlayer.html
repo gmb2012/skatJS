@@ -1,0 +1,18 @@
+<div class="row" ng-Controller="NewPlayerController">
+    <h3>Neuer Spieler</h3>
+    <div class="alert alert-success" role="alert" data-ng-show="status == 'success'">Der Spieler wurde erfolgreich angelegt.</div>
+    <div class="alert alert-danger" role="alert" data-ng-show="status == 'error'">Ein Fehler ist aufgetreten.</div>
+    <form role="form">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" ng-model="name" placeholder="Name eingeben" />
+        </div>
+        <button type="submit" class="btn btn-default" ng-click="add(name)" ng-disabled="name.length == 0">Erstellen</button>
+    </form>
+</div>
+<div class="row">
+    <h3>Alle Spieler</h3>
+    <div ng-repeat="item in items | orderBy:'name'">
+        <div>{{item.name}}</div>
+    </div>
+</div>
