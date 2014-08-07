@@ -51,10 +51,10 @@ class Game extends MongoItem {
         $this->match = (string) $this->match;
 
         $scores = array();
-        foreach($this->scores as $mongScore) {
+        foreach($this->scores as $mongoScore) {
             $score = new \stdClass();
-            $score->id = (string) $mongScore->id;
-            $score->score = $mongScore->score;
+            $score->id = (string) $mongoScore['id'];
+            $score->score = $mongoScore['score'];
             $scores[] = $score;
         }
 

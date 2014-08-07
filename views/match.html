@@ -3,29 +3,40 @@
 
     <div class="row">
         <span ng-repeat="player in players">
-            <h4 class="col-lg-2 col-md-2 col-sm-2">
+            <h4 class="col-lg-2 col-md-2 col-sm-2 text-right">
                 {{player.name}}
             </h4>
         </span>
 
-        <h4 class="col-lg-2 col-md-2 col-sm-2">
+        <h4 class="col-lg-2 col-md-2 col-sm-2 text-right">
             Spiel
         </h4>
     </div>
     <hr class="col-lg-10 col-md-10 col-sm-10 separator">
-    <div class="row" ng-controller="GamesController">
-        The List goes here
+    <div>
+        <span ng-repeat="score in scores">
+            <div class="row">
+                <div ng-repeat="playerScore in score.players" class="col-lg-2 col-md-2 col-sm-2 text-right">
+                   {{playerScore.score}}
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 text-right">
+                    {{score.game}}
+                </div>
+            </div>
+            <hr class="col-lg-10 col-md-10 col-sm-10 separator" ng-show="!$last && ($index + 1) % players.length == 0">
+        </span>
     </div>
+    <p></p>
     <div class="row">
         <form ng-controller="NewGameController">
             <span ng-repeat="player in players">
                 <div class="col-lg-2 col-md-2 col-sm-2">
-                    <input type="number" name="{{player.id}}" ng-model="scores[player.id]" class="form-control" />
+                    <input type="number" name="{{player.id}}" ng-model="newScores[player.id]" class="form-control text-right" />
                 </div>
 
             </span>
             <div class="col-lg-2 col-md-2 col-sm-2">
-                <input type="number" ng-model="score" class="form-control" />
+                <input type="number" ng-model="newScore" class="form-control text-right" />
             </div>
 
             <div class="col-lg-2 col-md-2 col-sm-2">

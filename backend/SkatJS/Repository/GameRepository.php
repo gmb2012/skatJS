@@ -22,9 +22,6 @@ class GameRepository extends MongoRepository {
     }
 
     public function findByMatchId($matchId) {
-        var_dump($matchId);
-        var_dump($this->find(array(array('match' => new \MongoId($matchId) )), array('date' => 1)));
-        exit('here');
-        return $this->find(array(array('match' => new \MongoId($matchId) )), array('date' => 1));
+        return $this->find(array('match' => new \MongoId($matchId)), array('date' => 1));
     }
 }

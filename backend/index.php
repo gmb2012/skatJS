@@ -28,60 +28,43 @@ $app->response()->header('Content-Type', 'application/json');
 /* PLAYERS */
 // get all players
 $app->get('/players', function () use ($app) {
-        $playerRepository = new \SkatJS\Repository\PlayerRepository($app->config('dbConfig'));
-
-        $returnValue = array();
-        foreach($playerRepository->findAll() as $player) {
-            $returnValue[] = $player->toJson();
-        }
-
-        echo json_encode($returnValue, JSON_PRETTY_PRINT);
-    });
+    echo json_encode(\SkatJS\Util\JsonHelper::toJsonList((new \SkatJS\Repository\PlayerRepository($app->config('dbConfig')))->findAll()), JSON_PRETTY_PRINT);
+});
 
 // add new player
 $app->post('/players/new', function () use ($app) {
-        try {
-            $player = new \SkatJS\Model\Player(new \SkatJS\Repository\PlayerRepository($app->config('dbConfig')));
-            $player->fromJson(json_decode($app->request->getBody()));
-            $player->save();
-            echo json_encode($player->toJson(), JSON_PRETTY_PRINT);
-        } catch(\SkatJS\Exception\DuplicateException $e) {
-            $app->response->setStatus(409);
-            $error = new stdClass();
-            $error->message = "Player already exists";
-            echo json_encode($error, JSON_PRETTY_PRINT);
-        }
-    });
-
+    try {
+        $player = new \SkatJS\Model\Player(new \SkatJS\Repository\PlayerRepository($app->config('dbConfig')));
+        $player->fromJson(json_decode($app->request->getBody()));
+        $player->save();
+        echo json_encode($player->toJson(), JSON_PRETTY_PRINT);
+    } catch(\SkatJS\Exception\DuplicateException $e) {
+        $app->response->setStatus(409);
+        $error = new stdClass();
+        $error->message = "Player already exists";
+        echo json_encode($error, JSON_PRETTY_PRINT);
+    }
+});
 
 /* MATCHES */
 // get match by id
 $app->get('/matches/:id', function ($id) use ($app) {
-        $matchRepository = new \SkatJS\Repository\MatchRepository($app->config('dbConfig'));
-
-        echo json_encode($matchRepository->findById($id)->toJson(), JSON_PRETTY_PRINT);
-    });
+    echo json_encode((new \SkatJS\Repository\MatchRepository($app->config('dbConfig')))->findById($id)->toJson(), JSON_PRETTY_PRINT);
+});
 
 // get all matches
 $app->get('/matches', function () use ($app) {
-        $matchRepository = new \SkatJS\Repository\MatchRepository($app->config('dbConfig'));
-
-        $returnValue = array();
-        foreach($matchRepository->findAllOldestFirst() as $player) {
-            $returnValue[] = $player->toJson();
-        }
-
-        echo json_encode($returnValue, JSON_PRETTY_PRINT);
-    });
+    echo json_encode(\SkatJS\Util\JsonHelper::toJsonList((new \SkatJS\Repository\MatchRepository($app->config('dbConfig')))->findAllOldestFirst()), JSON_PRETTY_PRINT);
+});
 
 // add new match
 $app->post('/matches/new', function () use ($app) {
-        $match = new \SkatJS\Model\Match(new \SkatJS\Repository\MatchRepository($app->config('dbConfig')));
-        $match->fromJson(json_decode($app->request->getBody()));
+    $match = new \SkatJS\Model\Match(new \SkatJS\Repository\MatchRepository($app->config('dbConfig')));
+    $match->fromJson(json_decode($app->request->getBody()));
 
-        $match->save();
-        echo json_encode($match->toJson(), JSON_PRETTY_PRINT);
-    });
+    $match->save();
+    echo json_encode($match->toJson(), JSON_PRETTY_PRINT);
+});
 
 /* GAMES */
 // add new game
@@ -94,9 +77,7 @@ $app->post('/games/new', function () use ($app) {
 });
 
 $app->get('/games/byMatch/:matchId', function ($matchId) use ($app) {
-    $gameRepository = new \SkatJS\Repository\GameRepository($app->config('dbConfig'));
-
-    echo json_encode($gameRepository->findByMatchId($matchId)->toJson(), JSON_PRETTY_PRINT);
+    echo json_encode(\SkatJS\Util\JsonHelper::toJsonList((new \SkatJS\Repository\GameRepository($app->config('dbConfig')))->findByMatchId($matchId)), JSON_PRETTY_PRINT);
 });
 
 $app->run();

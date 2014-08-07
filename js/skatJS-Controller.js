@@ -10,7 +10,7 @@ angular.module('skatJS-Controller', ['skatJS-Service', 'skatJS-Util'])
         // games of the last week
         // top 5 players
     }])
-    .controller('NewMatchController', ['$scope', 'PlayerService', 'PlayerUtil', 'MatchService', function($scope, playerService, playerUtil, matchService) {
+    .controller('NewMatchController', ['$scope', '$location', 'PlayerService', 'PlayerUtil', 'MatchService', function($scope, $location, playerService, playerUtil, matchService) {
         $scope.players = playerService.getAll();
         $scope.selectedPlayers = [];
 
@@ -45,8 +45,9 @@ angular.module('skatJS-Controller', ['skatJS-Service', 'skatJS-Util'])
                 playerIds.push(value.id);
             });
 
-            matchService.add({ players: playerIds });
-            alert('REDIRECT MISSING');
+            matchService.add({ players: playerIds }).$promise.then(function(match) {
+                $location.path('/matches/' + match.id);
+            });
         }
 
     }])
@@ -93,49 +94,75 @@ angular.module('skatJS-Controller', ['skatJS-Service', 'skatJS-Util'])
             });
         });
     }])
-    .controller('MatchController', ['$scope', '$routeParams', 'PlayerService', 'PlayerUtil', 'MatchService', function($scope, $routeParams, playerService, playerUtil, matchService) {
+    .controller('MatchController', ['$scope', '$routeParams', 'PlayerService', 'PlayerUtil', 'MatchService', 'GameService', function($scope, $routeParams, playerService, playerUtil, matchService, gameService) {
         $scope.matchId = $routeParams.id;
+        $scope.newScores = {};
+        $scope.newScore = 0;
+
         $scope.scores = {};
+        $scope.getGames = function() {
+            gameService.getByMatchId($scope.matchId).$promise.then(function(games) {
+                angular.forEach(games, function(game, key) {
+                    var gameScores = {};
+
+                    angular.forEach(game.scores, function(value, key) {
+                        gameScores[value.id] = value.score;
+                    });
+
+                    // assign scores to the players
+                    var score = { players: [], game: game.gameScore };
+                    angular.forEach($scope.players, function(value, key) {
+                        score.players.push({ id: value.id, score: gameScores[value.id] });
+                    });
+
+                    $scope.scores[game.id] = score;
+                });
+            });
+        }
+
         playerService.getAll().$promise.then(function(players) {
             players = playerUtil.idMapping(players);
 
-            // get all matches
+            // get match
             matchService.getById($routeParams.id).$promise.then(function(match) {
                 $scope.date = match.date;
                 $scope.players = [];
 
                 angular.forEach(match.players, function(value, key) {
                     $scope.players.push({ id: value, name: players[value] });
-                    $scope.scores[value] = 0;
+                    $scope.newScores[value] = 0;
                 });
+
+                // get the games
+                $scope.getGames();
             });
-        });
-    }])
-    .controller('GamesController', ['$scope', 'GameService', function($scope, gameService) {
-        gameService.getByMatchId($scope.matchId).$promise.then(function(games) {
-            console.log(games);
         });
     }])
     .controller('NewGameController', ['$scope', 'GameService', function($scope, gameService) {
         $scope.add = function() {
-            console.log('addCalled');
             var scores = [];
-            angular.forEach($scope.scores, function(value, key) {
+            angular.forEach($scope.newScores, function(value, key) {
                 scores.push({ id: key, score: value });
             });
 
-            gameService.add({ match: $scope.matchId, scores: scores, gameScore: $scope.score, bockCount: 0, ramschCount: 0}).$promise.then(function() {
-                window.alert('Refresh List & Empty Form');
+            gameService.add({ match: $scope.matchId, scores: scores, gameScore: $scope.newScore, bockCount: 0, ramschCount: 0}).$promise.then(function() {
+                $scope.getGames();
+
+                $scope.newScore = 0;
+                angular.forEach($scope.newScores, function(value, key) {
+                    $scope.newScores[key] = 0;
+                });
             });
         }
 
+        // show submit button
         $scope.noScoreEntered = function() {
             var scores = 0;
-            angular.forEach($scope.scores, function(value, key) {
+            angular.forEach($scope.newScores, function(value, key) {
                 scores += value;
             });
 
-            if(scores != 0 && angular.isDefined($scope.score) && $scope.score != 0) {
+            if(scores != 0 && angular.isDefined($scope.newScore) && $scope.newScore != 0) {
                 return false;
             } else {
                 return true;
