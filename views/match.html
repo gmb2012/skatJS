@@ -17,7 +17,7 @@
         <span ng-repeat="score in scores">
             <div class="row">
                 <div ng-repeat="playerScore in score.players" class="col-lg-2 col-md-2 col-sm-2 text-right">
-                   {{playerScore.score}}
+                   <span ng-show="playerScore.display">{{playerScore.score}}</span>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-2 text-right">
                     {{score.game}}

@@ -101,10 +101,15 @@ angular.module('skatJS-Controller', ['skatJS-Service', 'skatJS-Util'])
 
         $scope.scores = {};
         $scope.getGames = function() {
+            // init score table for the players
+            var playerScores = {};
+            angular.forEach($scope.players, function(value, key) {
+                playerScores[value.id] = 0;
+            });
+
             gameService.getByMatchId($scope.matchId).$promise.then(function(games) {
                 angular.forEach(games, function(game, key) {
                     var gameScores = {};
-
                     angular.forEach(game.scores, function(value, key) {
                         gameScores[value.id] = value.score;
                     });
@@ -112,7 +117,10 @@ angular.module('skatJS-Controller', ['skatJS-Service', 'skatJS-Util'])
                     // assign scores to the players
                     var score = { players: [], game: game.gameScore };
                     angular.forEach($scope.players, function(value, key) {
-                        score.players.push({ id: value.id, score: gameScores[value.id] });
+                        var displayScore = playerScores[value.id] != playerScores[value.id] + gameScores[value.id]; // display changed score
+                        playerScores[value.id] += gameScores[value.id]; // calculate current score
+
+                        score.players.push({ id: value.id, score: playerScores[value.id], display: displayScore });
                     });
 
                     $scope.scores[game.id] = score;
