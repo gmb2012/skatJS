@@ -21,8 +21,15 @@ angular.module('skatJS-Service', ['ngResource'])
     .factory('PlayerService', ['ResourceService', function(resourceService) {
         return resourceService.makeService('/backend/players/');
     }])
-    .factory('MatchService', ['ResourceService', function(resourceService) {
-        return resourceService.makeService('/backend/matches/');
+    .factory('MatchService', ['ResourceService', '$resource', function(resourceService, $resource) {
+        var service = resourceService.makeService('/backend/matches/');
+
+        service.getStatsById = function(id) {
+            return $resource('/backend/matches/stats/' + id).get();
+        }
+
+        return service;
+
     }])
     .factory('GameService', ['ResourceService', '$resource', function(resourceService, $resource) {
         var service = resourceService.makeService('/backend/games/');

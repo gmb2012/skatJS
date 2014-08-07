@@ -66,6 +66,29 @@ $app->post('/matches/new', function () use ($app) {
     echo json_encode($match->toJson(), JSON_PRETTY_PRINT);
 });
 
+// get stats for match by id
+$app->get('/matches/stats/:id', function ($id) use ($app) {
+    $returnValue = new \stdClass();
+    $games = (new \SkatJS\Repository\GameRepository($app->config('dbConfig')))->findByMatchId($id);
+
+    $returnValue->gameCount = count($games);
+    $returnValue->scores = new \stdClass();
+
+    // calculate scores for players
+    foreach($games as $game) {
+        foreach($game->getScores() as $score) {
+            if(!isset($returnValue->scores->{$score->id})) {
+                $returnValue->scores->{$score->id} = 0;
+            }
+
+            $returnValue->scores->{$score->id} += $score->score;
+        }
+    }
+
+    echo json_encode($returnValue, JSON_PRETTY_PRINT);
+
+});
+
 /* GAMES */
 // add new game
 $app->post('/games/new', function () use ($app) {

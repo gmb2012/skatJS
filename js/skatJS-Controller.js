@@ -7,7 +7,7 @@ angular.module('skatJS-Controller', ['skatJS-Service', 'skatJS-Util'])
         };
     }])
     .controller('DashboardController', ['$scope', function($scope) {
-        // games of the last week
+        // matches of the last week
         // top 5 players
     }])
     .controller('NewMatchController', ['$scope', '$location', 'PlayerService', 'PlayerUtil', 'MatchService', function($scope, $location, playerService, playerUtil, matchService) {
@@ -84,12 +84,15 @@ angular.module('skatJS-Controller', ['skatJS-Service', 'skatJS-Util'])
             $scope.matches = [];
             matchService.getAll().$promise.then(function(items) {
                 angular.forEach(items, function(value, key) {
-                    var matchPlayers = [];
-                    angular.forEach(value.players, function(value, key) {
-                        matchPlayers.push(players[value]);
-                    });
+                    // get stats for each element
+                    matchService.getStatsById(value.id).$promise.then(function(stats) {
+                        var matchPlayers = [];
+                        angular.forEach(value.players, function(value, key) {
+                            matchPlayers.push(players[value] + ' (' + stats.scores[value] + ')');
+                        });
 
-                    $scope.matches.push({ id: value.id, date: value.date, players: matchPlayers });
+                        $scope.matches.push({ id: value.id, date: value.date, players: matchPlayers, gameCount: stats.gameCount });
+                    });
                 });
             });
         });
