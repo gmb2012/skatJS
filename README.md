@@ -4,6 +4,7 @@
 php -t . -S localhost:3333
 
 ## todo
+- remove warnings
 - Add real skat rules (Grand Hand)
 - Add score helper
 - Add display of Bock and Ramsch games
