@@ -13,10 +13,10 @@
     </div>
     <div ng-repeat="match in matches">
         <div class="row match-row">
-            <div class="col-lg-4 col-md-3 col-sm-3">
-                {{match.date | date:'yyyy-MM-dd HH:mm:ss'}}
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                {{match.date | date:'yyyy-MM-dd HH:mm'}}
             </div>
-            <div class="col-lg-5 col-md-4 col-sm-4">
+            <div class="col-lg-5 col-md-5 col-sm-5">
                 {{match.players.join(', ')}}
             </div>
             <div class="col-lg-2 col-md-2 col-sm-2">

@@ -5,7 +5,7 @@ namespace SkatJS\Model;
 use SkatJS\Exception\Exception;
 use SkatJS\Repository\MongoRepository;
 
-abstract class MongoItem implements CRUDItem {
+abstract class MongoItem extends Base implements CRUDItem {
     protected $id;
     protected $repository;
 
@@ -31,13 +31,9 @@ abstract class MongoItem implements CRUDItem {
 
     // HELPER METHODS
     public function toJson() {
-        $returnValue = new \stdClass();
+        $returnValue = parent::toJson();
 
-        foreach(get_object_vars($this) as $varName => $value) {
-            if($value !== null && $varName !== 'repository') {
-                $returnValue->{$varName} = $value;
-            }
-        }
+        unset($returnValue->repository);
 
         return $returnValue;
     }
@@ -107,6 +103,4 @@ abstract class MongoItem implements CRUDItem {
     {
         return $this->repository;
     }
-
-
 }

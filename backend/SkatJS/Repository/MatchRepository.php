@@ -23,4 +23,11 @@ class MatchRepository extends MongoRepository {
     public function findAllOldestFirst() {
         return $this->find(array(), array('date' => -1));
     }
+
+    public function findCurrentAllOldestFirst() {
+        $lastWeek = new \DateTime();
+        $lastWeek->sub(new \DateInterval('P7D'));
+
+        return $this->find(array("date" => array('$gt' => new \MongoDate($lastWeek->getTimestamp()))), array('date' => -1));
+    }
 }

@@ -6,9 +6,25 @@ angular.module('skatJS-Controller', ['skatJS-Service', 'skatJS-Util'])
             return route === $location.path();
         };
     }])
-    .controller('DashboardController', ['$scope', function($scope) {
-        // matches of the last week
-        // top 5 players
+    .controller('DashboardController', ['$scope', 'PlayerService', 'PlayerUtil', 'MatchService', function($scope, playerService, playerUtil, matchService) {
+        $scope.players = playerService.getRanking();
+
+        playerService.getAll().$promise.then(function(items) {
+            var players = playerUtil.idMapping(items);
+
+            // get all matches
+            $scope.matches = [];
+            matchService.getCurrent().$promise.then(function(items) {
+                angular.forEach(items, function(value, key) {
+                    var matchPlayers = [];
+                    angular.forEach(value.players, function(value, key) {
+                        matchPlayers.push(players[value]);
+                    });
+
+                    $scope.matches.push({ id: value.id, date: value.date, players: matchPlayers });
+                });
+            });
+        });
     }])
     .controller('NewMatchController', ['$scope', '$location', 'PlayerService', 'PlayerUtil', 'MatchService', function($scope, $location, playerService, playerUtil, matchService) {
         $scope.players = playerService.getAll();
@@ -73,8 +89,8 @@ angular.module('skatJS-Controller', ['skatJS-Service', 'skatJS-Util'])
             })
         }
     }])
-    .controller('RankingController', ['$scope', function($scope) {
-
+    .controller('RankingController', ['$scope', 'PlayerService', function($scope, playerService) {
+        $scope.items = playerService.getRanking();
     }])
     .controller('MatchesController', ['$scope', 'PlayerService', 'PlayerUtil', 'MatchService', function($scope, playerService, playerUtil, matchService) {
         playerService.getAll().$promise.then(function(items) {

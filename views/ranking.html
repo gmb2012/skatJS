@@ -1,1 +1,19 @@
-ranking
+<div class="row" ng-Controller="RankingController">
+    <h3>Rangliste</h3>
+    <div class="row ">
+        <h4 class="col-lg-2 col-md-2 col-sm-2">
+            Name
+        </h4>
+        <h4 class="col-lg-1 col-md-1 col-sm-1">
+            Punkte
+        </h4>
+    </div>
+    <div ng-repeat="item in items" class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2">
+            {{item.name}}
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-1 text-right">
+            {{item.score}}
+        </div>
+    </div>
+</div>

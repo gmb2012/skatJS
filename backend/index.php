@@ -46,15 +46,29 @@ $app->post('/players/new', function () use ($app) {
     }
 });
 
-/* MATCHES */
-// get match by id
-$app->get('/matches/:id', function ($id) use ($app) {
-    echo json_encode((new \SkatJS\Repository\MatchRepository($app->config('dbConfig')))->findById($id)->toJson(), JSON_PRETTY_PRINT);
+// get ranking for players
+$app->get('/players/ranking', function () use ($app) {
+    echo json_encode((new \SkatJS\Model\Ranking(
+        (new \SkatJS\Repository\PlayerRepository($app->config('dbConfig')))->findAll(),
+        (new \SkatJS\Repository\GameRepository($app->config('dbConfig')))->findAll()
+    ))->toJson(), JSON_PRETTY_PRINT);
 });
 
+
+/* MATCHES */
 // get all matches
 $app->get('/matches', function () use ($app) {
     echo json_encode(\SkatJS\Util\JsonHelper::toJsonList((new \SkatJS\Repository\MatchRepository($app->config('dbConfig')))->findAllOldestFirst()), JSON_PRETTY_PRINT);
+});
+
+// get current matches
+$app->get('/matches/current', function () use ($app) {
+    echo json_encode(\SkatJS\Util\JsonHelper::toJsonList((new \SkatJS\Repository\MatchRepository($app->config('dbConfig')))->findCurrentAllOldestFirst()), JSON_PRETTY_PRINT);
+});
+
+// get match by id
+$app->get('/matches/:id', function ($id) use ($app) {
+    echo json_encode((new \SkatJS\Repository\MatchRepository($app->config('dbConfig')))->findById($id)->toJson(), JSON_PRETTY_PRINT);
 });
 
 // add new match

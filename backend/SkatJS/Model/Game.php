@@ -1,7 +1,6 @@
 <?php
 namespace SkatJS\Model;
 
-
 class Game extends MongoItem {
     protected $match;
     protected $date;

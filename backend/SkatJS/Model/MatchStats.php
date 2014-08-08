@@ -1,17 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: bzapadlo
- * Date: 08/08/14
- * Time: 14:10
- */
-
 namespace SkatJS\Model;
 
-
-class MatchStats {
-    private $gameCount;
-    private $scores;
+class MatchStats extends Base {
+    protected $gameCount;
+    protected $scores;
 
     public function __construct(array $games) {
         $this->gameCount = count($games);
@@ -28,14 +20,4 @@ class MatchStats {
             }
         }
     }
-
-    public function toJson() {
-        $returnValue = new \stdClass();
-
-        foreach(get_object_vars($this) as $varName => $value) {
-            $returnValue->{$varName} = $value;
-        }
-
-        return $returnValue;
-    }
-} 
+}
