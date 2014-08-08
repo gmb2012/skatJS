@@ -19,33 +19,33 @@ angular.module('skatJS-Service', ['ngResource'])
         };
     }])
     .factory('PlayerService', ['ResourceService', '$resource', function(resourceService, $resource) {
-        var service = resourceService.makeService('/backend/players/');
+        var service = resourceService.makeService('backend/players/');
 
         service.getRanking = function() {
-            return $resource('/backend/players/ranking/').query();
+            return $resource('backend/players/ranking/').query();
         }
 
         return service;
     }])
     .factory('MatchService', ['ResourceService', '$resource', function(resourceService, $resource) {
-        var service = resourceService.makeService('/backend/matches/');
+        var service = resourceService.makeService('backend/matches/');
 
         service.getStatsById = function(id) {
-            return $resource('/backend/matches/stats/' + id).get();
+            return $resource('backend/matches/stats/' + id).get();
         }
 
         service.getCurrent = function() {
-            return $resource('/backend/matches/current').query();
+            return $resource('backend/matches/current').query();
         }
 
         return service;
 
     }])
     .factory('GameService', ['ResourceService', '$resource', function(resourceService, $resource) {
-        var service = resourceService.makeService('/backend/games/');
+        var service = resourceService.makeService('backend/games/');
 
         service.getByMatchId = function(matchId) {
-            return $resource('/backend/games/byMatch/' + matchId).query();
+            return $resource('backend/games/byMatch/' + matchId).query();
         }
 
         return service;
