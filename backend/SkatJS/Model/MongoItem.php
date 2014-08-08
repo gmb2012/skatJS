@@ -35,7 +35,7 @@ abstract class MongoItem implements CRUDItem {
 
         foreach(get_object_vars($this) as $varName => $value) {
             if($value !== null && $varName !== 'repository') {
-                $returnValue->$varName = $value;
+                $returnValue->{$varName} = $value;
             }
         }
 
