@@ -1,41 +1,41 @@
 <div class="row" ng-Controller="DashboardController">
-    <div class="col-lg-6 col-md-6 col-sm-6">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
         <h3>Aktuelle Spiele</h3>
         <div class="row ">
-            <h4 class="col-lg-4 col-md-4 col-sm-4">
+            <h4 class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 Start
             </h4>
-            <h4 class="col-lg-4 col-md-4 col-sm-4">
+            <h4 class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 Spieler
             </h4>
         </div>
         <div ng-repeat="match in matches | limitTo: 5" class="row match-row">
-            <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 {{match.date | date:'yyyy-MM-dd HH:mm'}}
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 {{match.players.join(', ')}}
             </div>
-            <div class="col-lg-1 col-md-1 col-sm-1">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                 <a href="#/matches/{{match.id}}"><span class="glyphicon glyphicon-play"></span></a>
             </div>
         </div>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-6">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
         <h3>Top 5 Spieler</h3>
         <div class="row">
-            <h4 class="col-lg-4 col-md-4 col-sm-4">
+            <h4 class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 Name
             </h4>
-            <h4 class="col-lg-2 col-md-2 col-sm-2">
+            <h4 class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
                 Punkte
             </h4>
         </div>
         <div ng-repeat="player in players | limitTo: 5" class="row">
-            <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 {{player.name}}
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 text-right">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4 text-right">
                 {{player.score}}
             </div>
         </div>

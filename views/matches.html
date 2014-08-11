@@ -1,28 +1,28 @@
 <div class="row">
     <h3>Spiele</h3>
     <div class="row ">
-        <h4 class="col-lg-4 col-md-3 col-sm-3">
+        <h4 class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
             Start
         </h4>
-        <h4 class="col-lg-5 col-md-4 col-sm-4">
+        <h4 class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
             Spieler
         </h4>
-        <h4 class="col-lg-2 col-md-2 col-sm-2">
+        <h4 class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
             Anzahl Runden
         </h4>
     </div>
     <div ng-repeat="match in matches">
         <div class="row match-row">
-            <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                 {{match.date | date:'yyyy-MM-dd HH:mm'}}
             </div>
-            <div class="col-lg-5 col-md-5 col-sm-5">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                 {{match.players.join(', ')}}
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-2">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                 {{match.gameCount}}
             </div>
-            <div class="col-lg-1 col-md-1 col-sm-1">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                 <a href="#/matches/{{match.id}}"><span class="glyphicon glyphicon-play"></span></a>
             </div>
         </div>
