@@ -36,7 +36,6 @@ class Game extends MongoItem {
 
         $returnValue['scores'] = array();
         foreach($this->scores as $score) {
-            $mongoScore = array();
             $returnValue['scores'][] = array('id' => new \MongoId($score->id), 'score' => $score->score);
         }
 

@@ -104,7 +104,12 @@ angular.module('skatJS-Controller', ['skatJS-Service', 'skatJS-Util'])
                     matchService.getStatsById(value.id).$promise.then(function(stats) {
                         var matchPlayers = [];
                         angular.forEach(value.players, function(value, key) {
-                            matchPlayers.push(players[value] + ' (' + stats.scores[value] + ')');
+                            var score = stats.scores[value];
+                            if(isNaN(score)) {
+                                score = 0;
+                            }
+
+                            matchPlayers.push(players[value] + ' (' + score + ')');
                         });
 
                         $scope.matches.push({ id: value.id, date: value.date, players: matchPlayers, gameCount: stats.gameCount });
@@ -164,6 +169,9 @@ angular.module('skatJS-Controller', ['skatJS-Service', 'skatJS-Util'])
                 $scope.getGames();
             });
         });
+    }])
+    .controller('CalculatorController', ['$scope', function($scope) {
+        $scope.gameType = 'diamonds';
     }])
     .controller('NewGameController', ['$scope', 'GameService', function($scope, gameService) {
         $scope.add = function() {

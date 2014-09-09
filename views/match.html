@@ -12,18 +12,18 @@
             Spiel
         </h4>
     </div>
-    <hr class="col-lg-10 col-md-10 col-sm-10 col-xs-10 separator">
+    <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 separator">
     <div>
         <span ng-repeat="score in scores">
             <div class="row">
                 <div ng-repeat="playerScore in score.players" class="col-lg-2 col-md-2 col-sm-2 col-xs-4 text-right">
                    <span ng-show="playerScore.display">{{playerScore.score}}</span>
                 </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4 text-right">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-right">
                     {{score.game}}
                 </div>
             </div>
-            <hr class="col-lg-10 col-md-10 col-sm-10 col-xs-10 separator" ng-show="!$last && ($index + 1) % players.length == 0">
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 separator" ng-show="!$last && ($index + 1) % players.length == 0">
         </span>
     </div>
     <p></p>
@@ -36,11 +36,81 @@
 
             </span>
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <div class="row calculator" ng-init="showCalc = false" ng-show="showCalc">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="CalculatorController">
+                        <select class="form-control" ng-model="gameType">
+                            <option value="diamonds">Karo</option>
+                            <option value="hearts">Herz</option>
+                            <option value="spades">Pik</option>
+                            <option value="clubs">Kreuz</option>
+                            <option value="grand">Grand</option>
+                            <option value="null">Null</option>
+                            <option value="ramsch">Ramsch</option>
+                        </select>
+                        <div ng-show="gameType != 'ramsch'">
+                            <select class="form-control" ng-show="gameType != 'null'">
+                                <option value="one">mit/ohne 1</option>
+                                <option value="two">mit/ohne 2</option>
+                                <option value="three">mit/ohne 3</option>
+                                <option value="four">mit/ohne 4</option>
+                            </select>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"> Ouvert
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"> Hand
+                                </label>
+                            </div>
+                            <div class="checkbox" ng-show="gameType != 'null'">
+                                <label>
+                                    <input type="checkbox"> Schneider
+                                </label>
+                            </div>
+                            <div class="checkbox" ng-show="gameType != 'null'">
+                                <label>
+                                    <input type="checkbox"> Schwarz
+                                </label>
+                            </div>
+                            <div class="checkbox" ng-show="gameType != 'null'">
+                                <label>
+                                    <input type="checkbox"> Angesagt
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"> Verloren
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"> Kontra
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"> Re
+                                </label>
+                            </div>
+                        </div>
+                        <div ng-show="gameType == 'ramsch'">
+                            <input type="number" placeholder="geschoben" class="form-control text-right" />
+                            <input type="number" placeholder="Jungfrau" class="form-control text-right" />
+                        </div>
+                    </div>
+                </div>
                 <input type="number" ng-model="newScore" class="form-control text-right" />
             </div>
 
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <button class="btn btn-default" ng-click="add()" ng-disabled="noScoreEntered()">Speichern</button>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" title="Berechnen">
+                    <button class="btn btn-default" ng-click="showCalc = !showCalc"><i class="fa fa-calculator"></i></button>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" title="Speichern">
+                    <button class="btn btn-default" ng-click="add()" ng-disabled="noScoreEntered()"><i class="fa fa-floppy-o"></i></button>
+                </div>
             </div>
         </form>
     </div>

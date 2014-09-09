@@ -1,8 +1,6 @@
 <?php
 namespace SkatJS\Repository;
 
-use SkatJS\Exception\DuplicateException;
-
 class GameRepository extends MongoRepository {
     const COLLECTION_NAME = 'Game';
 

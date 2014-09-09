@@ -1,13 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: bzapadlo
- * Date: 23/07/14
- * Time: 10:44
- */
-
 namespace SkatJS\Repository;
-
 
 interface MongoCRUD {
 

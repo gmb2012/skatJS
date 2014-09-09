@@ -1,13 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: bzapadlo
- * Date: 22/07/14
- * Time: 17:34
- */
-
 namespace SkatJS\Repository;
-
 
 use SkatJS\Exception\Exception;
 
